@@ -15,6 +15,7 @@ enum DatenExport {
         let lernsets: [LernsetExport]
         let gesundheit: [GesundheitsEintragExport]
         let kontakte: [KontaktExport]
+        let einkaufsartikel: [EinkaufsArtikelExport]
     }
 
     // MARK: - Export-Strukturen (Codable-Versionen der Models)
@@ -73,6 +74,14 @@ enum DatenExport {
         let erinnerungsintervallTage: Int?
     }
 
+    struct EinkaufsArtikelExport: Codable {
+        let name: String
+        let kategorie: String
+        let liste: String
+        let erledigt: Bool
+        let erstelltAm: Date
+    }
+
     // MARK: - Export-Funktion
 
     /// Exportiert alle Daten aus dem ModelContext als JSON-Datei
@@ -86,6 +95,7 @@ enum DatenExport {
         let lernsets = (try? context.fetch(FetchDescriptor<Lernset>())) ?? []
         let gesundheit = (try? context.fetch(FetchDescriptor<GesundheitsEintrag>())) ?? []
         let kontakte = (try? context.fetch(FetchDescriptor<Kontakt>())) ?? []
+        let einkaufsartikel = (try? context.fetch(FetchDescriptor<EinkaufsArtikel>())) ?? []
 
         // In Export-Format konvertieren
         let exportDaten = ExportDaten(
@@ -127,6 +137,12 @@ enum DatenExport {
                     name: k.name, geburtstag: k.geburtstag,
                     letzterKontakt: k.letzterKontakt, notiz: k.notiz,
                     erinnerungsintervallTage: k.erinnerungsintervallTage
+                )
+            },
+            einkaufsartikel: einkaufsartikel.map { e in
+                EinkaufsArtikelExport(
+                    name: e.name, kategorie: e.kategorie, liste: e.liste,
+                    erledigt: e.erledigt, erstelltAm: e.erstelltAm
                 )
             }
         )

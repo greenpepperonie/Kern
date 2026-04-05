@@ -9,9 +9,28 @@ struct EinstellungenView: View {
     @State private var zeigShareSheet = false
     @State private var exportFehler: String?
     @State private var exportiert = false
+    @State private var apiKey: String = UserDefaults.standard.string(forKey: "anthropic_api_key") ?? ""
 
     var body: some View {
         List {
+            // MARK: - KI-Integration
+            Section("Claude API (KI-Features)") {
+                SecureField("API-Key", text: $apiKey)
+                    .onChange(of: apiKey) { _, neuerKey in
+                        UserDefaults.standard.set(neuerKey, forKey: "anthropic_api_key")
+                    }
+
+                if ClaudeAPIService.shared.istKonfiguriert {
+                    Label("API-Key gespeichert", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .font(.caption)
+                } else {
+                    Label("Für KI-Lernassistent und smarte Einkaufsliste", systemImage: "info.circle")
+                        .foregroundStyle(.secondary)
+                        .font(.caption)
+                }
+            }
+
             // MARK: - Daten
             Section("Daten") {
                 Button {

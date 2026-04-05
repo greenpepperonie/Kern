@@ -10,12 +10,17 @@ struct AufgabenView: View {
     @State private var suchtext = ""
     @State private var zeigTimer = false
 
+    /// Aufgaben ohne Einkaufslisteneinträge (die haben ihre eigene Ansicht)
+    private var normaleAufgaben: [Aufgabe] {
+        aufgaben.filter { $0.kategorie != "Einkauf" }
+    }
+
     /// Gefilterte Aufgaben basierend auf Suchtext
     private var gefilterteAufgaben: [Aufgabe] {
         if suchtext.isEmpty {
-            return aufgaben
+            return normaleAufgaben
         }
-        return aufgaben.filter {
+        return normaleAufgaben.filter {
             $0.titel.localizedCaseInsensitiveContains(suchtext) ||
             $0.kategorie.localizedCaseInsensitiveContains(suchtext)
         }
@@ -36,9 +41,9 @@ struct AufgabenView: View {
             // MARK: - Schnellzugriffe
             Section {
                 NavigationLink {
-                    EinkaufslisteView()
+                    EinkaufslistenUebersicht()
                 } label: {
-                    Label("Einkaufsliste", systemImage: "cart.fill")
+                    Label("Einkaufslisten", systemImage: "cart.fill")
                 }
 
                 NavigationLink {
@@ -60,7 +65,7 @@ struct AufgabenView: View {
                 }
             }
 
-            if aufgaben.isEmpty {
+            if normaleAufgaben.isEmpty {
                 // Platzhalter wenn noch keine Aufgaben vorhanden
                 ContentUnavailableView(
                     "Keine Aufgaben",

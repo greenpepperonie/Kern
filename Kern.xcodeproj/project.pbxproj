@@ -46,6 +46,11 @@
 		AA000037 /* SonnenzeitenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000037 /* SonnenzeitenView.swift */; };
 		AA000038 /* DatenExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000038 /* DatenExport.swift */; };
 		AA000039 /* EinstellungenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000039 /* EinstellungenView.swift */; };
+		AA000040 /* EinkaufsArtikel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000040; };
+		AA000041 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000041; };
+		AA000042 /* HabitTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000042; };
+		AA000043 /* ClaudeAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000043; };
+		AA000044 /* KILernassistentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB000044; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +93,11 @@
 		AB000037 /* SonnenzeitenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SonnenzeitenView.swift; sourceTree = "<group>"; };
 		AB000038 /* DatenExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatenExport.swift; sourceTree = "<group>"; };
 		AB000039 /* EinstellungenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EinstellungenView.swift; sourceTree = "<group>"; };
+		AB000040 /* EinkaufsArtikel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EinkaufsArtikel.swift; sourceTree = "<group>"; };
+		AB000041 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		AB000042 /* HabitTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTrackingView.swift; sourceTree = "<group>"; };
+		AB000043 /* ClaudeAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeAPIService.swift; sourceTree = "<group>"; };
+		AB000044 /* KILernassistentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KILernassistentView.swift; sourceTree = "<group>"; };
 		AC000001 /* Kern.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kern.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -132,6 +142,8 @@
 				AB000006 /* Lernset.swift */,
 				AB000007 /* GesundheitsEintrag.swift */,
 				AB000008 /* Kontakt.swift */,
+				AB000040 /* EinkaufsArtikel.swift */,
+				AB000041 /* Habit.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,6 +199,7 @@
 				AB000031 /* FlashcardFormularView.swift */,
 				AB000032 /* FlashcardLernView.swift */,
 				AB000033 /* LernstreakView.swift */,
+				AB000044 /* KILernassistentView.swift */,
 			);
 			path = Lernen;
 			sourceTree = "<group>";
@@ -197,6 +210,7 @@
 				AB000012 /* GesundheitView.swift */,
 				AB000034 /* GesundheitEintragFormular.swift */,
 				AB000035 /* AtemuebungView.swift */,
+				AB000042 /* HabitTrackingView.swift */,
 			);
 			path = Gesundheit;
 			sourceTree = "<group>";
@@ -238,6 +252,7 @@
 			children = (
 				AB000038 /* DatenExport.swift */,
 				AB000039 /* EinstellungenView.swift */,
+				AB000043 /* ClaudeAPIService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -367,6 +382,11 @@
 				AA000037 /* SonnenzeitenView.swift in Sources */,
 				AA000038 /* DatenExport.swift in Sources */,
 				AA000039 /* EinstellungenView.swift in Sources */,
+				AA000040 /* EinkaufsArtikel.swift in Sources */,
+				AA000041 /* Habit.swift in Sources */,
+				AA000042 /* HabitTrackingView.swift in Sources */,
+				AA000043 /* ClaudeAPIService.swift in Sources */,
+				AA000044 /* KILernassistentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

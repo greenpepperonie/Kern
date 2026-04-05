@@ -93,9 +93,9 @@ Features marked **(Zukunft)** are planned but not built yet. Do not scaffold the
 - [x] Eisenhower-Matrix (4-Quadranten Ansicht für Aufgaben)
 - [x] Wochenreview (Statistiken, Trend, Kategorien-Aufschlüsselung)
 - [x] Fokus-Modus (eine Aufgabe im Fokus, Erledigen/Überspringen)
-- [ ] **BUG:** Einkaufslisteneinträge erscheinen als offene Aufgaben → müssen separiert werden
-- [ ] Mehrere Einkaufslisten (z.B. Rewe, Aldi, DM) mit eigenem Model
-- [ ] KI-Kategoriezuordnung für Einkaufsitems (Item+Kategorie merken für Zukunft)
+- [x] ~~BUG:~~ Einkaufslisteneinträge aus Aufgabenliste gefiltert
+- [x] Mehrere Einkaufslisten (z.B. Rewe, Aldi) mit eigenem EinkaufsArtikel-Model
+- [x] KI-Kategoriezuordnung (Regelwerk + KategorieMapping-Cache, Claude API vorbereitet)
 - [ ] **(Zukunft)** KI-Priorisierung
 
 ### Bereich 2 — Notizen & Kreativität
@@ -112,14 +112,14 @@ Features marked **(Zukunft)** are planned but not built yet. Do not scaffold the
 - [x] Flashcards mit Spaced Repetition (SM-2 Algorithmus)
 - [x] Eigene Quiz-Fragen / Lernkarten erstellen
 - [x] Lernstreaks & Gamification (Streak, Statistiken, Motivation)
-- [ ] KI-Lernassistent: Thema wählen + Schwierigkeitsgrad (Kind/Schüler/Student/…) → KI generiert Flashcards
+- [x] KI-Lernassistent: Thema + Schwierigkeitsgrad → Claude API generiert Flashcards
 
 ### Bereich 4 — Gesundheit & Wohlbefinden
 - [x] Schlaf-Tracker (Slider 0–14h, 7-Tage-Durchschnitt)
 - [x] Atemübungen (4-7-8 Technik mit Ring-Animation, 4 Zyklen)
 - [x] Energie-Level tracken (täglicher Eintrag 1–5 mit Farbskala)
 - [x] Symptom-Tagebuch (vordefinierte + eigene Symptome)
-- [ ] Habit Tracking (eigene Kategorien erstellen, tägliches Abhaken, Verlaufs-Charts)
+- [x] Habit Tracking (eigene Habits, Streaks, GitHub-Style Grid + Verlaufs-Charts)
 - [ ] **(Zukunft)** HealthKit-Integration
 
 ### Bereich 5 — Kontext & Erinnerungen
@@ -240,6 +240,15 @@ Build in this order. Complete and test each phase before moving on.
 
 ---
 
+## API: Claude (Anthropic) — KI-Features
+
+- SDK: `@anthropic-ai/sdk` bzw. direkter REST-Call via URLSession
+- Auth: API-Key als Umgebungsvariable `ANTHROPIC_API_KEY` (niemals im Code hardcoden)
+- Verwendung:
+  1. **Einkaufsliste:** Kategoriezuordnung neuer Items (nur beim ersten Mal, danach lokal gecacht)
+  2. **Lernen:** Flashcard-Generierung basierend auf Thema + Schwierigkeitsgrad
+- Caching: Einmal zugewiesene Kategorien werden lokal gespeichert (kein erneuter API-Call)
+
 ## API: MeteoBlue Wetter
 
 - Endpoint: `https://my.meteoblue.com/packages/basic-1h`
@@ -309,5 +318,5 @@ Am Anfang jeder Claude Code Session:
 
 ---
 
-*Letzte Aktualisierung: 2026-04-05 — V1 fertig, Nutzerfeedback eingearbeitet*  
-*Nächster Schritt: Einkaufsliste-Bug fixen, Habit Tracking, KI-Integration (Lernen + Einkauf)*
+*Letzte Aktualisierung: 2026-04-05 — V2 fertig, Feedback umgesetzt, KI-Integration aktiv*  
+*Nächster Schritt: Testen auf iPhone 13, Feinschliff*

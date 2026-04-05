@@ -16,7 +16,11 @@ struct KernApp: App {
             Flashcard.self,
             Lernset.self,
             GesundheitsEintrag.self,
-            Kontakt.self
+            Kontakt.self,
+            EinkaufsArtikel.self,
+            KategorieMapping.self,
+            Habit.self,
+            HabitEintrag.self
         ])
     }
 }

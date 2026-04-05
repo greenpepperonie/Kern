@@ -9,6 +9,7 @@ struct LernenView: View {
     @Query private var lernsets: [Lernset]
     @State private var zeigNeuesLernset = false
     @State private var neuerDeckName = ""
+    @State private var zeigKIAssistent = false
 
     /// Alle einzigartigen Deck-Namen (aus Flashcards + Lernsets)
     private var deckNamen: [String] {
@@ -43,6 +44,21 @@ struct LernenView: View {
                                 .foregroundStyle(.orange)
                                 .clipShape(Capsule())
                         }
+                    }
+                }
+
+                // KI-Lernassistent
+                Button {
+                    zeigKIAssistent = true
+                } label: {
+                    HStack {
+                        Image(systemName: "sparkles")
+                            .foregroundStyle(.purple)
+                        Text("KI-Lernassistent")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -117,6 +133,9 @@ struct LernenView: View {
             Button("Abbrechen", role: .cancel) {
                 neuerDeckName = ""
             }
+        }
+        .sheet(isPresented: $zeigKIAssistent) {
+            KILernassistentView()
         }
     }
 

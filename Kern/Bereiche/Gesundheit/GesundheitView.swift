@@ -32,6 +32,17 @@ struct GesundheitView: View {
             // MARK: - Schnellzugriffe
             Section {
                 NavigationLink {
+                    HabitTrackingView()
+                } label: {
+                    HStack {
+                        Image(systemName: "repeat.circle.fill")
+                            .foregroundStyle(.purple)
+                            .frame(width: 32)
+                        Text("Habit Tracker")
+                    }
+                }
+
+                NavigationLink {
                     AtemuebungView()
                 } label: {
                     HStack {
