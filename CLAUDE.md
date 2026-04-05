@@ -21,7 +21,7 @@ Read it fully at the start of every session before writing any code.
 
 ## Core Principles
 
-1. **Offline-first, always.** No network requests except MeteoBlue weather API and future AI features.
+1. **Offline-first, always.** No network requests except Claude API (KI-Features) and MeteoBlue weather API.
 2. **No account, no login.** The app opens directly to content.
 3. **Privacy by default.** All user data stays on device. Export function gives full control.
 4. **German UI.** All labels, buttons, alerts, placeholders, and error messages in German.
@@ -34,38 +34,39 @@ Read it fully at the start of every session before writing any code.
 
 ```
 Kern/
-├── KernApp.swift                  # App entry point
-├── ContentView.swift              # Root tab navigation
+├── KernApp.swift                  # App entry point + SwiftData Container
+├── ContentView.swift              # Root tab navigation (5 Tabs)
 ├── CLAUDE.md                      # This file
 │
-├── Models/                        # SwiftData models
+├── Models/                        # SwiftData models (8 Models)
 │   ├── Aufgabe.swift
 │   ├── Notiz.swift
 │   ├── Flashcard.swift
 │   ├── Lernset.swift
 │   ├── GesundheitsEintrag.swift
-│   └── Kontakt.swift
+│   ├── Kontakt.swift
+│   ├── EinkaufsArtikel.swift      # + KategorieMapping (KI-Cache)
+│   └── Habit.swift                # + HabitEintrag
 │
-├── Bereiche/                      # One folder per app section
-│   ├── Aufgaben/
-│   ├── Notizen/
-│   ├── Lernen/
-│   ├── Gesundheit/
-│   └── Kontext/
+├── Bereiche/
+│   ├── Aufgaben/                  # 9 Dateien: CRUD, Timer, Einkaufslisten, Eisenhower, Fokus, Review
+│   ├── Notizen/                   # 7 Dateien: Editor, Detail, Sprach, Zeichnen, Verschlüsselung
+│   ├── Lernen/                    # 6 Dateien: SM-2, Flashcards, Lernsets, Streaks, KI-Assistent
+│   ├── Gesundheit/                # 4 Dateien: Einträge, Atemübung, Habit Tracking
+│   └── Kontext/                   # 3 Dateien: Kontakte, Sonnenzeiten
 │
-├── Shared/                        # Reusable components
+├── Shared/
 │   ├── Components/
 │   ├── Extensions/
-│   └── Utilities/
+│   └── Utilities/                 # DatenExport, Einstellungen, ClaudeAPIService
 │
 └── Resources/
-    ├── Assets.xcassets
-    └── Localizable.strings        # German strings (if needed)
+    └── Assets.xcassets            # AccentColor (Teal), AppIcon Platzhalter
 ```
 
 **Pattern:** MVVM (Model–View–ViewModel). Keep Views thin. Logic goes in ViewModels.  
 **Navigation:** TabView with 5 tabs (one per Bereich). Use NavigationStack inside each tab.  
-**Storage:** SwiftData for structured data. FileManager for images (Inspiration Board). UserDefaults for settings only.
+**Storage:** SwiftData for structured data. FileManager for images/audio. UserDefaults for settings + API-Key.
 
 ---
 
@@ -136,63 +137,22 @@ Features marked **(Zukunft)** are planned but not built yet. Do not scaffold the
 
 ---
 
-## Data Models (Starter Definitions)
+## Data Models (aktuelle Definitionen — 8 Models + 2 Hilfsmodels)
 
-```swift
-// Aufgabe
-@Model class Aufgabe {
-    var titel: String
-    var erledigt: Bool
-    var faelligkeitsdatum: Date?
-    var kategorie: String          // z.B. "Einkauf", "Arbeit"
-    var istWiederkehrend: Bool
-    var wiederholungsintervall: String?  // "täglich", "wöchentlich"
-    var wichtig: Bool              // für Eisenhower
-    var dringend: Bool             // für Eisenhower
-    var erstelltAm: Date
-}
+Alle Models sind in `Kern/Models/` definiert. Details siehe jeweilige Datei.
 
-// Notiz
-@Model class Notiz {
-    var titel: String
-    var inhalt: String             // Markdown-Text
-    var kategorie: String          // "Schnell", "Idee", "Brain Dump"
-    var istVerschluesselt: Bool
-    var hatAufnahme: Bool          // Sprach-Notiz
-    var aufnahmePfad: String?
-    var erstelltAm: Date
-    var geaendertAm: Date
-}
-
-// Flashcard
-@Model class Flashcard {
-    var frage: String
-    var antwort: String
-    var deck: String
-    var naechsteWiederholung: Date
-    var intervall: Int             // SM-2: Tage bis zur nächsten Wiederholung
-    var wiederholungen: Int
-    var easeFactor: Double         // SM-2: Schwierigkeitsfaktor
-}
-
-// GesundheitsEintrag
-@Model class GesundheitsEintrag {
-    var datum: Date
-    var schlafStunden: Double?
-    var energieLevel: Int?         // 1–5
-    var symptome: [String]
-    var notiz: String?
-}
-
-// Kontakt
-@Model class Kontakt {
-    var name: String
-    var geburtstag: Date?
-    var letzterKontakt: Date?
-    var notiz: String?
-    var erinnerungsintervallTage: Int?
-}
-```
+| Model | Datei | Zweck |
+|-------|-------|-------|
+| `Aufgabe` | Aufgabe.swift | Aufgaben mit Eisenhower, Wiederholung |
+| `Notiz` | Notiz.swift | Notizen mit Markdown, Verschlüsselung, Sprache |
+| `Flashcard` | Flashcard.swift | Lernkarten mit SM-2 Parametern |
+| `Lernset` | Lernset.swift | Gruppierung von Flashcards |
+| `GesundheitsEintrag` | GesundheitsEintrag.swift | Schlaf, Energie, Symptome |
+| `Kontakt` | Kontakt.swift | Kontakte mit Geburtstag, Erinnerungsintervall |
+| `EinkaufsArtikel` | EinkaufsArtikel.swift | Eigenes Model für Einkaufslisten (getrennt von Aufgaben) |
+| `KategorieMapping` | EinkaufsArtikel.swift | Cache für KI-Kategoriezuordnungen |
+| `Habit` | Habit.swift | Benutzerdefinierte Gewohnheiten |
+| `HabitEintrag` | Habit.swift | Tägliche Habit-Erledigungen |
 
 ---
 
@@ -242,12 +202,14 @@ Build in this order. Complete and test each phase before moving on.
 
 ## API: Claude (Anthropic) — KI-Features
 
-- SDK: `@anthropic-ai/sdk` bzw. direkter REST-Call via URLSession
-- Auth: API-Key als Umgebungsvariable `ANTHROPIC_API_KEY` (niemals im Code hardcoden)
+- Implementierung: `ClaudeAPIService.swift` (Singleton, direkter REST-Call via URLSession)
+- Model: `claude-sonnet-4-20250514`
+- Auth: API-Key in UserDefaults (`anthropic_api_key`), eingegeben über Einstellungen-View
+- Endpunkt: `https://api.anthropic.com/v1/messages`
 - Verwendung:
-  1. **Einkaufsliste:** Kategoriezuordnung neuer Items (nur beim ersten Mal, danach lokal gecacht)
-  2. **Lernen:** Flashcard-Generierung basierend auf Thema + Schwierigkeitsgrad
-- Caching: Einmal zugewiesene Kategorien werden lokal gespeichert (kein erneuter API-Call)
+  1. **Einkaufsliste:** Kategoriezuordnung (aktuell regelbasiert, KI-Call vorbereitet)
+  2. **Lernen:** `flashcardsGenerieren()` — Thema + Schwierigkeitsgrad → JSON-Array mit Frage/Antwort
+- Caching: `KategorieMapping`-Model speichert einmal zugewiesene Kategorien lokal
 
 ## API: MeteoBlue Wetter
 
@@ -283,17 +245,17 @@ let maxEnergieLevelWert = 5
 
 ## Wichtige iOS-Frameworks
 
-| Framework | Verwendung |
-|-----------|-----------|
-| SwiftUI | Alle Views |
-| SwiftData | Lokale Datenpersistenz |
-| AVFoundation | Sprach-Notizen (Aufnahme & Wiedergabe) |
-| CoreLocation | Standort-Erinnerungen |
-| EventKit | Kalender (nur lesen) |
-| UserNotifications | Alle Benachrichtigungen |
-| PencilKit | Zeichnen / Skizzen |
-| CryptoKit | Verschlüsselte Notizen |
-| URLSession | MeteoBlue API |
+| Framework | Verwendung | Status |
+|-----------|-----------|--------|
+| SwiftUI | Alle Views | ✅ aktiv |
+| SwiftData | Lokale Datenpersistenz (10 Models) | ✅ aktiv |
+| AVFoundation | Sprach-Notizen (Aufnahme & Wiedergabe) | ✅ aktiv |
+| PencilKit | Zeichnen / Skizzen | ✅ aktiv |
+| CryptoKit | Verschlüsselte Notizen (SHA256) | ✅ aktiv |
+| URLSession | Claude API + MeteoBlue | ✅ aktiv |
+| CoreLocation | Standort-Erinnerungen | Zukunft |
+| EventKit | Kalender (nur lesen) | Zukunft |
+| UserNotifications | Benachrichtigungen | Zukunft |
 
 ---
 
@@ -301,7 +263,7 @@ let maxEnergieLevelWert = 5
 
 - Keine externen Swift Package Manager Dependencies hinzufügen ohne explizite Anfrage
 - Keine UIKit-Views verwenden wenn SwiftUI ausreicht
-- Keine Netzwerkanfragen außer MeteoBlue (und später explizit genehmigte AI-APIs)
+- Keine Netzwerkanfragen außer Claude API (Anthropic) und MeteoBlue
 - Keine Daten auf externe Server senden
 - Keine `// TODO:` ohne Erklärung hinterlassen
 - Keine Zukunfts-Features (markiert mit "Zukunft") bauen ohne explizite Anweisung
